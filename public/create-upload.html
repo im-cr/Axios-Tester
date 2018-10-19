@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Upload Axios</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>        
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div id="output"></div>
+                    <form id='submit-form'>
+                        <div class="form-group">
+                            <label for="name"></label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="team"></label>
+                            <input type="text" name="team" id="team" class="form-control" placeholder="team">
+                        </div>
+                        <div class="form-group">
+                            <label for="position"></label>
+                            <input type="text" name="position" id="position" class="form-control" placeholder="position">
+                        </div>
+                        <div class="form-group">
+                                <label for="draft"></label>
+                                <input type="text" name="draft" id="draft" class="form-control" placeholder="draft">
+                        </div>
+                        <div class="input-group">
+                                <div>
+                                    <input type="file" id="player-pic" name="player-pic">
+                                    <label class="custom-file-label" for="player-pic">Choose file</label>
+                                </div>
+                            </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Upload</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col">
+                    <h3>Result</h3>
+                    <ul id="search-results" class="list">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <script>    
+            (function(){
+                let form = document.getElementById('submit-form');
+                let output = document.getElementById('output');
+
+                form.addEventListener('submit', function(e){
+                    e.preventDefault();
+                    let data = new FormData(form);
+
+                    let config = {
+                        onUploadProgress: function(e){
+                            output.innerHTML= Math.round((e.loaded *100) / e.total);
+                        }
+                    }
+                    
+                    //request
+                    axios.post('/api/players/upload', data).then(function(res){
+                        
+                    }).catch(function(error){
+                        if(error.response){
+                            alert(`Error code: ${error.response.status}\n${error.response.data}`);
+                        } else if (error.request){
+                            alert(error.request);
+                        } else {
+                            alert(`Error: ${error.message}`);
+                        }
+                    });
+
+                });
+            })();
+        </script>
+        
+        
+    </body>
+</html>

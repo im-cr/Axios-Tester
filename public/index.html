@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Cortney's Page</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
+        <style>
+            ul{
+                max-width:800px;
+                margin:0 auto;
+                display:flex;
+                justify-content: space-between;
+                list-style: none;
+            }
+            ul li{
+                padding:20px;
+                border-right:solid 1px #eee;
+            }
+        </style>
+    </head>
+    <body id="cortney">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="container">
+            <h1>Welcome!</h1>
+
+            <ul id="player-list">
+                
+            </ul>
+        </div>
+        <script>
+            //Making a get request
+            axios.get('/api/players').then( (res) => {
+                
+                //Variables
+                let players = res.data;
+                let html = '';
+                
+                //Iterate over player objects
+                players.forEach( (player) => {
+                    html += `<li>${player.name}<br /><small>${player.team}</small></li>`;
+                });
+
+                //Add html string to DOM
+                document.getElementById('player-list').innerHTML = html;
+            }).catch( (error) => {
+                document.getElementById('player-list').innerHTML = `<li>Error</li>`;
+            });
+        </script>
+    </body>
+</html>
